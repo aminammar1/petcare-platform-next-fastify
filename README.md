@@ -4,7 +4,7 @@
 
 A full‑stack petcare platform built with Fastify + MongoDB on the backend and Next.js on the frontend.
 
-This is my student end project from last year. Special thanks to my colleague — Yacine Yousfi — for the support and collaboration.
+This is my student end project from last year. Special thanks to my colleague — Yassine Youssfi — for the support and collaboration.
 
 ## Quick start with Docker (simple, no nginx)
 
@@ -107,4 +107,4 @@ See the full terms in the [LICENSE](./LICENSE) file.
 
 ## Acknowledgements
 
-Thanks to my colleague, Yacine Yousfi, for the help and collaboration on this project.
+Thanks to my colleague, Yassine Youssfi, for the help and collaboration on this project.
