@@ -17,21 +17,22 @@ import chatRoutes from './routes/chatRoutes.js'
 
 dotenv.config()
 
+const isDev = process.env.NODE_ENV !== 'production'
 const fastify = Fastify({
-  logger: {
-    level: 'debug',
-    transport: {
-      // Pretty, colorized logs in terminal
-      target: 'pino-pretty',
-      options: {
-        colorize: true,
-        translateTime: 'SYS:standard',
-        singleLine: false,
-        ignore: 'pid,hostname',
-      },
-    },
-  },
-  // Emit a log line for every incoming request
+  logger: isDev
+    ? {
+        level: 'debug',
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            colorize: true,
+            translateTime: 'SYS:standard',
+            singleLine: false,
+            ignore: 'pid,hostname',
+          },
+        },
+      }
+    : true,
   disableRequestLogging: false,
   requestIdHeader: 'x-request-id',
 })
@@ -39,7 +40,9 @@ const fastify = Fastify({
 await fastify.register(fastifyCookie, {
   secret: process.env.COOKIE_SECRET || 'secret',
 })
+
 await fastify.register(fastifyCors, corsOptions)
+
 await fastify.register(fastifyIO, {
   cors: {
     origin: allowedOrigins,
@@ -54,20 +57,23 @@ await fastify.register(chatRoutes)
 
 try {
   await connectDB()
+
   fastify.io.on('connection', (socket) => {
     socket.on('join', async (room) => {
       if (!room) return
+
       socket.join(room)
       try {
         const chat = await getOrCreateChatRoom(room)
         socket.emit('messages', chat.messages || [])
-      } catch (e) {
+      } catch (error) {
         socket.emit('error', 'Failed to load messages')
       }
     })
 
     socket.on('message', async ({ room, username, message }) => {
       if (!room || !message) return
+
       try {
         await addMessageToRoom(room, username || 'anonymous', message)
         fastify.io.to(room).emit('message', {
@@ -75,13 +81,15 @@ try {
           message,
           timestamp: new Date(),
         })
-      } catch (e) {
+      } catch (error) {
         socket.emit('error', 'Failed to send message')
       }
     })
   })
+
   const port = Number(process.env.PORT) || 5000
   const host = process.env.HOST || '0.0.0.0'
+
   await fastify.listen({ port, host })
 } catch (err) {
   fastify.log.error(err)
