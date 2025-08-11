@@ -1,0 +1,90 @@
+.wrapper {
+  background-color: #f4f2f1;
+}
+.hero {
+  padding: 80px 16px 24px;
+  text-align: center;
+}
+.title {
+  font-size: 44px;
+  color: #2c444e;
+  margin: 0 0 8px;
+}
+.subtitle {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  max-width: 1100px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 3px 4px 36px -6px rgba(0, 0, 0, 0.1);
+}
+.cardImage {
+  width: 260px;
+  max-width: 90%;
+  height: auto;
+  margin: 8px auto 16px;
+  display: block;
+}
+.cardTitle {
+  font-size: 24px;
+  color: #2c444e;
+  margin: 8px 0;
+}
+.cardText {
+  color: #555;
+  margin: 0 0 12px;
+}
+.cardButton {
+  display: inline-block;
+  background: #14a828;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 24px;
+  text-decoration: none;
+}
+.cardButton:hover {
+  background: #0f7e20;
+}
+.faq {
+  max-width: 900px;
+  margin: 48px auto 80px;
+  padding: 0 16px;
+}
+.faqTitle {
+  font-size: 32px;
+  color: #2c444e;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.faqItem {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+}
+.faqItem summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #2c444e;
+}
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .title {
+    font-size: 32px;
+  }
+}
