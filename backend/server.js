@@ -3,7 +3,7 @@ import fastifyCookie from '@fastify/cookie'
 import fastifyCors from '@fastify/cors'
 import dotenv from 'dotenv'
 import corsOptions from './config/corsOptions.js'
-import allowedOrigins from './config/allowedOrigins.js'
+import allowedOrigins, { isAllowedOrigin } from './config/allowedOrigins.js'
 import { connectDB } from './config/dbConn.js'
 import fastifyIO from 'fastify-socket.io'
 import {
@@ -45,7 +45,11 @@ await fastify.register(fastifyCors, corsOptions)
 
 await fastify.register(fastifyIO, {
   cors: {
-    origin: allowedOrigins,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true)
+      if (isAllowedOrigin(origin)) return callback(null, true)
+      return callback(new Error('Not allowed by CORS (socket.io)'))
+    },
     credentials: true,
   },
 })

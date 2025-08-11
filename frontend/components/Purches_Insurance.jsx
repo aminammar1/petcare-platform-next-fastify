@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import styles from '../styles/purches_insurance.module.css' // Ensure the path is correct
+import styles from '../Styles/purches_insurance.module.css' // Fix casing: "Styles" folder is capitalized
 import Link from 'next/link'
 
 export default function Purches() {
