@@ -1,0 +1,30 @@
+version: '3.9'
+services:
+  backend:
+    build: ./backend
+    container_name: petpulse-backend
+    env_file:
+      - ./backend/.env
+    environment:
+      - PORT=5000
+      - HOST=0.0.0.0
+    ports:
+      - '5000:5000'
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: petpulse-frontend
+    environment:
+      # Browser calls need to hit the host port, not the container name
+      - NEXT_PUBLIC_API_URL=http://localhost:5000
+      - PORT=3000
+    ports:
+      - '3000:3000'
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+networks:
+  default:
+    name: petpulse_net
